@@ -1,0 +1,6 @@
+TODO
+====
+
+* checksecure management command (SESSION_COOKIE_SECURE,
+  SESSION_COOKIE_HTTPONLY, SECURE_STS_SECONDS, SECURE_SSL_REDIRECT,
+  SECURE_FRAME_DENY, SecurityMiddleware)
