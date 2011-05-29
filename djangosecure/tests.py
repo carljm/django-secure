@@ -130,3 +130,155 @@ class SecurityMiddlewareTest(TestCase):
         """
         ret = self.process_request("get", "/some/url")
         self.assertEqual(ret, None)
+
+
+
+class CheckSessionCookieSecureTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.sessions import check_session_cookie_secure
+        return check_session_cookie_secure
+
+
+    @override_settings(
+        SESSION_COOKIE_SECURE=False,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[])
+    def test_session_cookie_secure_with_installed_app(self):
+        """
+        Warns if SESSION_COOKIE_SECURE is off and "django.contrib.sessions" is
+        in INSTALLED_APPS.
+
+        """
+        self.assertEqual(
+            self.func(), set(["SESSION_COOKIE_NOT_SECURE_APP_INSTALLED"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_SECURE=False,
+        INSTALLED_APPS=[],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_secure_with_middleware(self):
+        """
+        Warns if SESSION_COOKIE_SECURE is off and
+        "django.contrib.sessions.middleware.SessionMiddleware" is in
+        MIDDLEWARE_CLASSES.
+
+        """
+        self.assertEqual(
+            self.func(), set(["SESSION_COOKIE_NOT_SECURE_MIDDLEWARE"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_SECURE=False,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_secure_both(self):
+        """
+        If SESSION_COOKIE_SECURE is off and we find both the session app and
+        the middleware, we just provide one common warning.
+
+        """
+        self.assertEqual(
+            self.func(), set(["SESSION_COOKIE_NOT_SECURE"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_SECURE=True,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_secure_true(self):
+        """
+        If SESSION_COOKIE_SECURE is on, there's no warning about it.
+
+        """
+        self.assertEqual(self.func(), set())
+
+
+
+class CheckSessionCookieHttpOnlyTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.sessions import check_session_cookie_httponly
+        return check_session_cookie_httponly
+
+
+    @override_settings(
+        SESSION_COOKIE_HTTPONLY=False,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[])
+    def test_session_cookie_httponly_with_installed_app(self):
+        """
+        Warns if SESSION_COOKIE_HTTPONLY is off and "django.contrib.sessions"
+        is in INSTALLED_APPS.
+
+        """
+        self.assertEqual(
+            self.func(), set(["SESSION_COOKIE_NOT_HTTPONLY_APP_INSTALLED"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_HTTPONLY=False,
+        INSTALLED_APPS=[],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_httponly_with_middleware(self):
+        """
+        Warns if SESSION_COOKIE_HTTPONLY is off and
+        "django.contrib.sessions.middleware.SessionMiddleware" is in
+        MIDDLEWARE_CLASSES.
+
+        """
+        self.assertEqual(
+            self.func(), set(["SESSION_COOKIE_NOT_HTTPONLY_MIDDLEWARE"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_HTTPONLY=False,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_httponly_both(self):
+        """
+        If SESSION_COOKIE_HTTPONLY is off and we find both the session app and
+        the middleware, we just provide one common warning.
+
+        """
+        self.assertTrue(
+            self.func(), set(["SESSION_COOKIE_NOT_HTTPONLY"]))
+
+
+    @override_settings(
+        SESSION_COOKIE_HTTPONLY=True,
+        INSTALLED_APPS=["django.contrib.sessions"],
+        MIDDLEWARE_CLASSES=[
+            "django.contrib.sessions.middleware.SessionMiddleware"])
+    def test_session_cookie_httponly_true(self):
+        """
+        If SESSION_COOKIE_HTTPONLY is on, there's no warning about it.
+
+        """
+        self.assertEqual(self.func(), set())
+
+
+
+class CheckSecurityMiddlewareTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_security_middleware
+        return check_security_middleware
+
+
+    @override_settings(MIDDLEWARE_CLASSES=[])
+    def test_no_security_middleware(self):
+        self.assertEqual(
+            self.func(), set(["SECURITY_MIDDLEWARE_NOT_INSTALLED"]))
+
+
+    @override_settings(
+        MIDDLEWARE_CLASSES=["djangosecure.middleware.SecurityMiddleware"])
+    def test_with_security_middleware(self):
+        self.assertEqual(self.func(), set())
