@@ -56,8 +56,22 @@ class SecurityMiddlewareTest(TestCase):
         present in the response.
 
         """
-        response = self.process_response(headers={"x-frame-options": "ALLOW"})
-        self.assertEqual(response["x-frame-options"], "ALLOW")
+        response = self.process_response(
+            headers={"x-frame-options": "SAMEORIGIN"})
+        self.assertEqual(response["x-frame-options"], "SAMEORIGIN")
+
+
+    @override_settings(SECURE_FRAME_DENY=True)
+    def test_frame_deny_exempt(self):
+        """
+        If the response has the _frame_deny_exempt attribute set to True, the
+        middleware does not add an "x-frame-options" header to the response.
+
+        """
+        response = HttpResponse()
+        response._frame_deny_exempt = True
+        response = self.middleware.process_response("not used", response)
+        self.assertFalse("x-frame-options" in response)
 
 
     @override_settings(SECURE_FRAME_DENY=False)
@@ -134,6 +148,24 @@ class SecurityMiddlewareTest(TestCase):
         """
         ret = self.process_request("get", "/some/url")
         self.assertEqual(ret, None)
+
+
+
+class FrameDenyExemptTest(TestCase):
+    def test_adds_exempt_attr(self):
+        """
+        Test that the decorator adds a _frame_deny_exempt attribute to the
+        response. (We test above in the middleware tests that this attribute
+        causes the X-Frame-Options header to not be added.)
+
+        """
+        from djangosecure.decorators import frame_deny_exempt
+
+        @frame_deny_exempt
+        def myview(request):
+            return HttpResponse()
+
+        self.assertEqual(myview("not used")._frame_deny_exempt, True)
 
 
 

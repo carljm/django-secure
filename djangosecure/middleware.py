@@ -17,7 +17,9 @@ class SecurityMiddleware(object):
 
 
     def process_response(self, request, response):
-        if self.frame_deny and not 'x-frame-options' in response:
+        if (self.frame_deny and
+            not getattr(response, "_frame_deny_exempt", False) and
+            not 'x-frame-options' in response):
             response["x-frame-options"] = "DENY"
         if self.sts_seconds and not 'strict-transport-security' in response:
             response["strict-transport-security"] = ("max-age=%s"
