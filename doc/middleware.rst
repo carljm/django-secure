@@ -62,6 +62,12 @@ you set the :ref:`SECURE_HSTS_SECONDS` setting to a nonzero integer value.
     otherwise invalid SSL certificate. If you use HSTS, make sure your
     certificates are in good shape and stay that way!
 
+.. note::
+    If you are deployed behind a load-balancer or reverse-proxy server, and the
+    Strict-Transport-Security header is not being added to your responses, it
+    may be because Django doesn't realize when it's on a secure connection; you
+    may need to set the :ref:`SECURE_PROXY_SSL_HEADER` setting.
+
 .. _"Strict-Transport-Security" header: http://en.wikipedia.org/wiki/Strict_Transport_Security
 
 .. _ssl-redirect:
