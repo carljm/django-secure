@@ -412,3 +412,24 @@ class ConfTest(TestCase):
         from djangosecure.conf import conf
 
         self.assertRaises(ImproperlyConfigured, getattr, conf, "HAS_NO_DEFAULT")
+
+
+    def test_defaults(self):
+        from djangosecure.conf import conf
+
+        self.assertEqual(
+            conf.defaults,
+            {
+                "SECURE_CHECKS":[
+                    "djangosecure.check.sessions.check_session_cookie_secure",
+                    "djangosecure.check.sessions.check_session_cookie_httponly",
+                    "djangosecure.check.djangosecure.check_security_middleware",
+                    "djangosecure.check.djangosecure.check_sts",
+                    "djangosecure.check.djangosecure.check_frame_deny",
+                    "djangosecure.check.djangosecure.check_ssl_redirect",
+                    ],
+                "SECURE_STS_SECONDS": 0,
+                "SECURE_FRAME_DENY": True,
+                "SECURE_SSL_REDIRECT": False,
+                }
+            )

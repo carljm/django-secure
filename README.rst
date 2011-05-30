@@ -11,8 +11,8 @@ Quickstart
 Dependencies
 ------------
 
-Tested with `Django`_ 1.2 and trunk, and `Python`_ 2.5 through 2.7. Almost
-certainly works with older versions of Django, though.
+Tested with `Django`_ 1.2 through trunk, and `Python`_ 2.5 through 2.7. Quite
+likely works with older versions of both, though; it's not very complicated.
 
 .. _Django: http://www.djangoproject.com/
 .. _Python: http://www.python.org/
@@ -33,6 +33,8 @@ or get the `in-development version`_::
 Usage
 -----
 
+* Add ``"djangosecure"`` to your ``INSTALLED_APPS`` setting.
+
 * Add ``"djangosecure.middleware.SecurityMiddleware"`` to your
   ``MIDDLEWARE_CLASSES`` setting (where depends on your other middlewares, but
   near the beginning of the list is probably a good choice).
@@ -46,9 +48,9 @@ Usage
 * Set ``SESSION_COOKIE_SECURE`` and ``SESSION_COOKIE_HTTPONLY`` to ``True`` if
   you are using ``django.contrib.sessions``. These settings are not part of
   ``django-secure``, but they should be used if running a secure site, and the
-  ``checksecurity`` management command will check their values.
+  ``checksecure`` management command will check their values.
 
-* Run ``python manage.py checksecurity`` to verify that your settings are
+* Run ``python manage.py checksecure`` to verify that your settings are
   properly configured for serving a secure SSL site.
 
 .. _Strict Transport Security: http://en.wikipedia.org/wiki/Strict_Transport_Security

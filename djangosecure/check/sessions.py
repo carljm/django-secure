@@ -13,6 +13,23 @@ def check_session_cookie_secure():
             ret = set(["SESSION_COOKIE_NOT_SECURE"])
     return ret
 
+check_session_cookie_secure.messages = {
+    "SESSION_COOKIE_NOT_SECURE_APP_INSTALLED":
+        ("You have 'django.contrib.sessions' in your INSTALLED_APPS, "
+         "but you have not set SESSION_COOKIE_SECURE to True."),
+    "SESSION_COOKIE_NOT_SECURE_MIDDLEWARE":
+        ("You have 'django.contrib.sessions.middleware.SessionMiddleware' "
+         "in your MIDDLEWARE_CLASSES, but you have not set "
+         "SESSION_COOKIE_SECURE to True."),
+    "SESSION_COOKIE_NOT_SECURE":
+        "SESSION_COOKIE_SECURE is not set to True."
+    }
+
+for k, v in check_session_cookie_secure.messages.items():
+    check_session_cookie_secure.messages[k] = (
+        v + "Using a secure-only session cookie makes it more difficult for "
+        "network traffic sniffers to hijack user sessions.")
+
 
 
 def check_session_cookie_httponly():
@@ -25,6 +42,23 @@ def check_session_cookie_httponly():
         if len(ret) > 1:
             ret = set(["SESSION_COOKIE_NOT_HTTPONLY"])
     return ret
+
+check_session_cookie_httponly.messages = {
+    "SESSION_COOKIE_NOT_HTTPONLY_APP_INSTALLED":
+        ("You have 'django.contrib.sessions' in your INSTALLED_APPS, "
+         "but you have not set SESSION_COOKIE_HTTPONLY to True."),
+    "SESSION_COOKIE_NOT_HTTPONLY_MIDDLEWARE":
+        ("You have 'django.contrib.sessions.middleware.SessionMiddleware' "
+         "in your MIDDLEWARE_CLASSES, but you have not set "
+         "SESSION_COOKIE_HTTPONLY to True."),
+    "SESSION_COOKIE_NOT_HTTPONLY":
+        "SESSION_COOKIE_HTTPONLY is not set to True."
+    }
+
+for k, v in check_session_cookie_httponly.messages.items():
+    check_session_cookie_httponly.messages[k] = (
+        v + "Using a HttpOnly session cookie makes it more difficult for "
+        "cross-site scripting attacks to hijack user sessions.")
 
 
 

@@ -1,24 +1,50 @@
-from django.core.management.base import NoArgsCommand
-from django.conf import settings
-from django.utils.importlib import import_module
+import textwrap
 
+from django.core.management.base import NoArgsCommand
+from django.utils.importlib import import_module
+from django.utils.termcolors import make_style
+
+from ...conf import conf
 
 
 class Command(NoArgsCommand):
-    def handle_noargs(self, verbosity, **options):
+    def handle_noargs(self, **options):
+        verbosity = int(options.get("verbosity"))
+
+        self.style.SUCCESS = make_style(opts=('bold',), fg='green')
+
         warn_count = 0
 
-        for func_path in settings.SECURE_CHECKS:
+        for func_path in conf.SECURE_CHECKS:
             mod_name, func_name = func_path.rsplit(".", 1)
             module = import_module(mod_name)
             func = getattr(module, func_name)
 
             if verbosity:
-                self.stdout.write("Running %s...\n" % func_path)
+                self.stdout.write("Running %s... " % func_path)
+
+            messages = []
             for warn_code in func():
-                warn_count += 1
-                msg = getattr(func, "messages", {}).get(warn_code, warn_code)
-                self.stderr.write(self.style.ERROR(msg) + "\n")
+                if verbosity:
+                    msg = getattr(func, "messages", {}).get(
+                        warn_code, warn_code)
+                else:
+                    msg = warn_code
+                messages.append(msg)
+
+            if verbosity:
+                if messages:
+                    self.stdout.write(self.style.ERROR("FAIL"))
+                else:
+                    self.stdout.write(self.style.SUCCESS("OK"))
+                self.stdout.write("\n")
+
+            for msg in messages:
+                self.stderr.write(self.style.ERROR(textwrap.fill(msg)) + "\n")
+                if verbosity:
+                    self.stderr.write("\n")
+
+            warn_count += len(messages)
 
         if verbosity and not warn_count:
-            self.stdout.write("All clear!")
+            self.stdout.write(self.style.SUCCESS("\nAll clear!\n\n"))
