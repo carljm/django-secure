@@ -25,8 +25,13 @@ class SecurityMiddlewareTest(TestCase):
 
 
     def process_response(self, *args, **kwargs):
+        request_kwargs = {}
+        if kwargs.pop("secure", False):
+            request_kwargs["wsgi.url_scheme"] = "https"
+        request = (kwargs.pop("request", None) or
+                   self.request.get("/some/url", **request_kwargs))
         return self.middleware.process_response(
-            "request not used", self.response(*args, **kwargs))
+            request, self.response(*args, **kwargs))
 
 
     request = RequestFactory()
@@ -92,7 +97,7 @@ class SecurityMiddlewareTest(TestCase):
 
         """
         self.assertEqual(
-            self.process_response()["strict-transport-security"],
+            self.process_response(secure=True)["strict-transport-security"],
             "max-age=3600")
 
 
@@ -104,8 +109,20 @@ class SecurityMiddlewareTest(TestCase):
 
         """
         response = self.process_response(
+            secure=True,
             headers={"strict-transport-security": "max-age=7200"})
         self.assertEqual(response["strict-transport-security"], "max-age=7200")
+
+
+    @override_settings(SECURE_HSTS_SECONDS=3600)
+    def test_sts_only_if_secure(self):
+        """
+        The "strict-transport-security" header is not added to responses going
+        over an insecure connection.
+
+        """
+        self.assertFalse(
+            "strict-transport-security" in self.process_response(secure=False))
 
 
     @override_settings(SECURE_HSTS_SECONDS=0)
@@ -115,7 +132,8 @@ class SecurityMiddlewareTest(TestCase):
         "strict-transport-security" header to the response.
 
         """
-        self.assertFalse("strict-transport-security" in self.process_response())
+        self.assertFalse(
+            "strict-transport-security" in self.process_response(secure=True))
 
 
     @override_settings(SECURE_SSL_REDIRECT=True)

@@ -18,8 +18,9 @@ class SecurityMiddleware(object):
     def process_request(self, request):
         path = request.path.lstrip("/")
         if (self.redirect and
-            not request.is_secure() and
-            not any(pattern.search(path) for pattern in self.redirect_exempt)):
+                not request.is_secure() and
+                not any(pattern.search(path)
+                        for pattern in self.redirect_exempt)):
             host = self.redirect_host or request.get_host()
             return HttpResponsePermanentRedirect(
                 "https://%s%s" % (host, request.get_full_path()))
@@ -27,10 +28,12 @@ class SecurityMiddleware(object):
 
     def process_response(self, request, response):
         if (self.frame_deny and
-            not getattr(response, "_frame_deny_exempt", False) and
-            not 'x-frame-options' in response):
+                not getattr(response, "_frame_deny_exempt", False) and
+                not 'x-frame-options' in response):
             response["x-frame-options"] = "DENY"
-        if self.sts_seconds and not 'strict-transport-security' in response:
+        if (self.sts_seconds and
+                request.is_secure() and
+                not 'strict-transport-security' in response):
             response["strict-transport-security"] = ("max-age=%s"
                                                      % self.sts_seconds)
         return response
