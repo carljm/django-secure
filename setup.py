@@ -20,7 +20,7 @@ def get_version():
 setup(
     name="django-secure",
     version=get_version(),
-    description="Utilities for an SSL-only Django site",
+    description="Utilities and a 'linter' to help you make your Django site more secure.",
     long_description=long_description,
     author="Carl Meyer",
     author_email="carl@oddbird.net",
