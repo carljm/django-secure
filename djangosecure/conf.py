@@ -23,6 +23,7 @@ conf = Configuration(
     SECURE_SSL_REDIRECT=False,
     SECURE_SSL_HOST=None,
     SECURE_REDIRECT_EXEMPT=[],
+    SECURE_PROXY_SSL_HEADER=None,
     SECURE_CHECKS=[
         "djangosecure.check.sessions.check_session_cookie_secure",
         "djangosecure.check.sessions.check_session_cookie_httponly",

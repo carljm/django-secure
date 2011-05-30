@@ -16,6 +16,11 @@ class SecurityMiddlewareTest(TestCase):
         return SecurityMiddleware()
 
 
+    @property
+    def secure_request_kwargs(self):
+        return {"wsgi.url_scheme": "https"}
+
+
     def response(self, *args, **kwargs):
         headers = kwargs.pop("headers", {})
         response = HttpResponse(*args, **kwargs)
@@ -27,7 +32,7 @@ class SecurityMiddlewareTest(TestCase):
     def process_response(self, *args, **kwargs):
         request_kwargs = {}
         if kwargs.pop("secure", False):
-            request_kwargs["wsgi.url_scheme"] = "https"
+            request_kwargs.update(self.secure_request_kwargs)
         request = (kwargs.pop("request", None) or
                    self.request.get("/some/url", **request_kwargs))
         return self.middleware.process_response(
@@ -39,7 +44,7 @@ class SecurityMiddlewareTest(TestCase):
 
     def process_request(self, method, *args, **kwargs):
         if kwargs.pop("secure", False):
-            kwargs["wsgi.url_scheme"] = "https"
+            kwargs.update(self.secure_request_kwargs)
         req = getattr(self.request, method.lower())(*args, **kwargs)
         return self.middleware.process_request(req)
 
@@ -190,6 +195,29 @@ class SecurityMiddlewareTest(TestCase):
         """
         ret = self.process_request("get", "/some/url")
         self.assertEqual(ret, None)
+
+
+
+class ProxySecurityMiddlewareTest(SecurityMiddlewareTest):
+    """
+    Test that SecurityMiddleware behaves the same even if our "secure request"
+    indicator is a proxy header.
+
+    """
+    def setUp(self):
+        self.override = override_settings(
+            SECURE_PROXY_SSL_HEADER=("HTTP_X_FORWARDED_PROTOCOL", "https"))
+
+        self.override.enable()
+
+
+    def tearDown(self):
+        self.override.disable()
+
+
+    @property
+    def secure_request_kwargs(self):
+        return {"HTTP_X_FORWARDED_PROTOCOL": "https"}
 
 
 
@@ -528,5 +556,6 @@ class ConfTest(TestCase):
                 "SECURE_SSL_REDIRECT": False,
                 "SECURE_SSL_HOST": None,
                 "SECURE_REDIRECT_EXEMPT": [],
+                "SECURE_PROXY_SSL_HEADER": None,
                 }
             )
