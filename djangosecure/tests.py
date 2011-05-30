@@ -249,6 +249,9 @@ fake_test.messages = {
 def nomsg_test():
     return set(["OTHER WARNING"])
 
+def passing_test():
+    return []
+
 
 class RunChecksTest(TestCase):
     @property
@@ -309,7 +312,7 @@ class CheckSettingsCommandTest(TestCase):
         self.assertEqual(stdout, "")
 
 
-    @override_settings(SECURE_CHECKS=[])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.passing_test"])
     def test_all_clear(self):
         stdout, stderr = self.call()
         self.assertTrue("All clear!" in stdout)
