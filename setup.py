@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 
 here = dirname(__file__)
 
-long_description = (open(join(here, 'README.rst')).read() + "\n\n" +
-                    open(join(here, 'CHANGES.rst')).read() + "\n\n" +
-                    open(join(here, 'TODO.rst')).read())
+long_description = (open(join(here, "README.rst")).read() + "\n\n" +
+                    open(join(here, "CHANGES.rst")).read() + "\n\n" +
+                    open(join(here, "TODO.rst")).read())
 
 def get_version():
     fh = open(join(here, "djangosecure", "__init__.py"))
@@ -18,29 +18,29 @@ def get_version():
         fh.close()
 
 setup(
-    name='django-secure',
+    name="django-secure",
     version=get_version(),
-    description='Utilities for an SSL-only Django site',
+    description="Utilities for an SSL-only Django site",
     long_description=long_description,
-    author='Carl Meyer',
-    author_email='carl@oddbird.net',
-    url='https://github.com/carljm/django-secure/',
+    author="Carl Meyer",
+    author_email="carl@oddbird.net",
+    url="https://github.com/carljm/django-secure/",
     packages=find_packages(),
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.4',
-        'Programming Language :: Python :: 2.5',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Framework :: Django',
+        "Development Status :: 3 - Alpha",
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.4",
+        "Programming Language :: Python :: 2.5",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
+        "Framework :: Django",
     ],
     zip_safe=False,
     tests_require=["Django>=1.2"],
-    test_suite='runtests.runtests'
+    test_suite="runtests.runtests"
 )
