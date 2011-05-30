@@ -1,3 +1,7 @@
+import cStringIO as StringIO
+
+from django.core.exceptions import ImproperlyConfigured
+from django.core.management import call_command
 from django.http import HttpResponse
 from django.test import TestCase
 
@@ -130,6 +134,62 @@ class SecurityMiddlewareTest(TestCase):
         """
         ret = self.process_request("get", "/some/url")
         self.assertEqual(ret, None)
+
+
+
+def fake_test():
+    return set(["SOME_WARNING"])
+
+fake_test.messages = {
+    "SOME_WARNING": "This is the warning message."
+    }
+
+def nomsg_test():
+    return set(["OTHER WARNING"])
+
+
+
+class CheckSettingsCommandTest(TestCase):
+    def call(self, **options):
+        stdout = options.setdefault("stdout", StringIO.StringIO())
+        stderr = options.setdefault("stderr", StringIO.StringIO())
+
+        call_command("checksecure", **options)
+
+        stderr.seek(0)
+        stdout.seek(0)
+
+        return stdout.read(), stderr.read()
+
+
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    def test_prints_messages(self):
+        stdout, stderr = self.call()
+        self.assertTrue("This is the warning message." in stderr)
+
+
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.nomsg_test"])
+    def test_prints_code_if_no_message(self):
+        stdout, stderr = self.call()
+        self.assertTrue("OTHER WARNING" in stderr)
+
+
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    def test_prints_check_names(self):
+        stdout, stderr = self.call()
+        self.assertTrue("djangosecure.tests.fake_test" in stdout)
+
+
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    def test_no_verbosity(self):
+        stdout, stderr = self.call(verbosity=0)
+        self.assertEqual(stdout, "")
+
+
+    @override_settings(SECURE_CHECKS=[])
+    def test_all_clear(self):
+        stdout, stderr = self.call()
+        self.assertTrue("All clear!" in stdout)
 
 
 
@@ -282,3 +342,73 @@ class CheckSecurityMiddlewareTest(TestCase):
         MIDDLEWARE_CLASSES=["djangosecure.middleware.SecurityMiddleware"])
     def test_with_security_middleware(self):
         self.assertEqual(self.func(), set())
+
+
+
+class CheckStrictTransportSecurityTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_sts
+        return check_sts
+
+
+    @override_settings(SECURE_STS_SECONDS=0)
+    def test_no_sts(self):
+        self.assertEqual(
+            self.func(), set(["STRICT_TRANSPORT_SECURITY_NOT_ENABLED"]))
+
+
+    @override_settings(SECURE_STS_SECONDS=3600)
+    def test_with_sts(self):
+        self.assertEqual(self.func(), set())
+
+
+
+class CheckFrameDenyTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_frame_deny
+        return check_frame_deny
+
+
+    @override_settings(SECURE_FRAME_DENY=False)
+    def test_no_sts(self):
+        self.assertEqual(
+            self.func(), set(["FRAME_DENY_NOT_ENABLED"]))
+
+
+    @override_settings(SECURE_FRAME_DENY=True)
+    def test_with_sts(self):
+        self.assertEqual(self.func(), set())
+
+
+
+class CheckSSLRedirectTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_ssl_redirect
+        return check_ssl_redirect
+
+
+    @override_settings(SECURE_SSL_REDIRECT=False)
+    def test_no_sts(self):
+        self.assertEqual(
+            self.func(), set(["SSL_REDIRECT_NOT_ENABLED"]))
+
+
+    @override_settings(SECURE_SSL_REDIRECT=True)
+    def test_with_sts(self):
+        self.assertEqual(self.func(), set())
+
+
+
+class ConfTest(TestCase):
+    def test_no_fallback(self):
+        """
+        Accessing a setting without a default value raises in
+        ImproperlyConfigured.
+
+        """
+        from djangosecure.conf import conf
+
+        self.assertRaises(ImproperlyConfigured, getattr, conf, "HAS_NO_DEFAULT")
