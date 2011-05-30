@@ -25,6 +25,7 @@ conf = Configuration(
     SECURE_REDIRECT_EXEMPT=[],
     SECURE_PROXY_SSL_HEADER=None,
     SECURE_CHECKS=[
+        "djangosecure.check.csrf.check_csrf_middleware",
         "djangosecure.check.sessions.check_session_cookie_secure",
         "djangosecure.check.sessions.check_session_cookie_httponly",
         "djangosecure.check.djangosecure.check_security_middleware",

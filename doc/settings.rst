@@ -15,6 +15,7 @@ management command <checksecure>`.
 Defaults to::
 
     [
+        "djangosecure.check.csrf.check_csrf_middleware",
         "djangosecure.check.sessions.check_session_cookie_secure",
         "djangosecure.check.sessions.check_session_cookie_httponly",
         "djangosecure.check.djangosecure.check_security_middleware",

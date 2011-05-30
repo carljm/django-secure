@@ -448,6 +448,26 @@ class CheckSessionCookieHttpOnlyTest(TestCase):
 
 
 
+class CheckCSRFMiddlewareTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.csrf import check_csrf_middleware
+        return check_csrf_middleware
+
+
+    @override_settings(MIDDLEWARE_CLASSES=[])
+    def test_no_csrf_middleware(self):
+        self.assertEqual(
+            self.func(), set(["CSRF_VIEW_MIDDLEWARE_NOT_INSTALLED"]))
+
+
+    @override_settings(
+        MIDDLEWARE_CLASSES=["django.middleware.csrf.CsrfViewMiddleware"])
+    def test_with_csrf_middleware(self):
+        self.assertEqual(self.func(), set())
+
+
+
 class CheckSecurityMiddlewareTest(TestCase):
     @property
     def func(self):
@@ -544,6 +564,7 @@ class ConfTest(TestCase):
             conf.defaults,
             {
                 "SECURE_CHECKS":[
+                    "djangosecure.check.csrf.check_csrf_middleware",
                     "djangosecure.check.sessions.check_session_cookie_secure",
                     "djangosecure.check.sessions.check_session_cookie_httponly",
                     "djangosecure.check.djangosecure.check_security_middleware",
