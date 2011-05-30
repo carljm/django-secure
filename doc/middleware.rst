@@ -69,7 +69,7 @@ you set the :ref:`SECURE_HSTS_SECONDS` setting to a nonzero integer value.
 SSL Redirect
 ------------
 
-If your site offers both HTTP and HTTPS connections, most users will end up on
+If your site offers both HTTP and HTTPS connections, most users will end up
 with an unsecured connection by default. For best security, you should redirect
 all HTTP connections to HTTPS.
 

@@ -31,7 +31,7 @@ Built-in checks
 ---------------
 
 The following check functions are built-in to django-secure, and will run by
-default
+default:
 
 .. py:currentmodule:: djangosecure.check.djangosecure
 
