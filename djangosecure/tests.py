@@ -141,6 +141,18 @@ class SecurityMiddlewareTest(TestCase):
 
 
     @override_settings(
+        SECURE_SSL_REDIRECT=True, SECURE_REDIRECT_EXEMPT=["^insecure/"])
+    def test_redirect_exempt(self):
+        """
+        The middleware does not redirect requests with URL path matching an
+        exempt pattern.
+
+        """
+        ret = self.process_request("get", "/insecure/page")
+        self.assertEqual(ret, None)
+
+
+    @override_settings(
         SECURE_SSL_REDIRECT=True, SECURE_SSL_HOST="secure.example.com")
     def test_redirect_ssl_host(self):
         """
@@ -497,5 +509,6 @@ class ConfTest(TestCase):
                 "SECURE_FRAME_DENY": False,
                 "SECURE_SSL_REDIRECT": False,
                 "SECURE_SSL_HOST": None,
+                "SECURE_REDIRECT_EXEMPT": [],
                 }
             )
