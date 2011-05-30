@@ -148,6 +148,21 @@ def nomsg_test():
     return set(["OTHER WARNING"])
 
 
+class RunChecksTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check import run_checks
+        return run_checks
+
+
+    @override_settings(
+        SECURE_CHECKS=[
+            "djangosecure.tests.fake_test",
+            "djangosecure.tests.nomsg_test"])
+    def test_returns_warnings(self):
+        self.assertEqual(self.func(), set(["SOME_WARNING", "OTHER WARNING"]))
+
+
 
 class CheckSettingsCommandTest(TestCase):
     def call(self, **options):

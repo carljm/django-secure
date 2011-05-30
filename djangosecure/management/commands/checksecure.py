@@ -1,9 +1,9 @@
 import textwrap
 
 from django.core.management.base import NoArgsCommand
-from django.utils.importlib import import_module
 from django.utils.termcolors import make_style
 
+from ...check import get_check
 from ...conf import conf
 
 
@@ -16,9 +16,7 @@ class Command(NoArgsCommand):
         warn_count = 0
 
         for func_path in conf.SECURE_CHECKS:
-            mod_name, func_name = func_path.rsplit(".", 1)
-            module = import_module(mod_name)
-            func = getattr(module, func_name)
+            func = get_check(func_path)
 
             if verbosity:
                 self.stdout.write("Running %s... " % func_path)
