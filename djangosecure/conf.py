@@ -21,6 +21,7 @@ conf = Configuration(
     SECURE_HSTS_SECONDS=0,
     SECURE_FRAME_DENY=False,
     SECURE_SSL_REDIRECT=False,
+    SECURE_SSL_HOST=None,
     SECURE_CHECKS=[
         "djangosecure.check.sessions.check_session_cookie_secure",
         "djangosecure.check.sessions.check_session_cookie_httponly",

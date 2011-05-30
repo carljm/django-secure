@@ -8,12 +8,14 @@ class SecurityMiddleware(object):
         self.sts_seconds = conf.SECURE_HSTS_SECONDS
         self.frame_deny = conf.SECURE_FRAME_DENY
         self.redirect = conf.SECURE_SSL_REDIRECT
+        self.redirect_host = conf.SECURE_SSL_HOST
 
 
     def process_request(self, request):
         if self.redirect and not request.is_secure():
+            host = self.redirect_host or request.get_host()
             return HttpResponsePermanentRedirect(
-                "https://%s%s" % (request.get_host(), request.get_full_path()))
+                "https://%s%s" % (host, request.get_full_path()))
 
 
     def process_response(self, request, response):
