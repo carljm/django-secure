@@ -18,8 +18,8 @@ class Configuration(object):
 
 
 conf = Configuration(
-    SECURE_STS_SECONDS=0,
-    SECURE_FRAME_DENY=True,
+    SECURE_HSTS_SECONDS=0,
+    SECURE_FRAME_DENY=False,
     SECURE_SSL_REDIRECT=False,
     SECURE_CHECKS=[
         "djangosecure.check.sessions.check_session_cookie_secure",

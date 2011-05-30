@@ -84,10 +84,10 @@ class SecurityMiddlewareTest(TestCase):
         self.assertFalse("x-frame-options" in self.process_response())
 
 
-    @override_settings(SECURE_STS_SECONDS=3600)
+    @override_settings(SECURE_HSTS_SECONDS=3600)
     def test_sts_on(self):
         """
-        With SECURE_STS_SECONDS=3600, the middleware adds
+        With SECURE_HSTS_SECONDS=3600, the middleware adds
         "strict-transport-security: max-age=3600" to the response.
 
         """
@@ -96,7 +96,7 @@ class SecurityMiddlewareTest(TestCase):
             "max-age=3600")
 
 
-    @override_settings(SECURE_STS_SECONDS=3600)
+    @override_settings(SECURE_HSTS_SECONDS=3600)
     def test_sts_already_present(self):
         """
         The middleware will not override a "strict-transport-security" header
@@ -108,10 +108,10 @@ class SecurityMiddlewareTest(TestCase):
         self.assertEqual(response["strict-transport-security"], "max-age=7200")
 
 
-    @override_settings(SECURE_STS_SECONDS=0)
+    @override_settings(SECURE_HSTS_SECONDS=0)
     def test_sts_off(self):
         """
-        With SECURE_STS_SECONDS of 0, the middleware does not add an
+        With SECURE_HSTS_SECONDS of 0, the middleware does not add an
         "strict-transport-security" header to the response.
 
         """
@@ -219,6 +219,12 @@ class CheckSettingsCommandTest(TestCase):
     def test_prints_code_if_no_message(self):
         stdout, stderr = self.call()
         self.assertTrue("OTHER WARNING" in stderr)
+
+
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    def test_prints_code_if_verbosity_0(self):
+        stdout, stderr = self.call(verbosity=0)
+        self.assertTrue("SOME_WARNING" in stderr)
 
 
     @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
@@ -399,13 +405,13 @@ class CheckStrictTransportSecurityTest(TestCase):
         return check_sts
 
 
-    @override_settings(SECURE_STS_SECONDS=0)
+    @override_settings(SECURE_HSTS_SECONDS=0)
     def test_no_sts(self):
         self.assertEqual(
             self.func(), set(["STRICT_TRANSPORT_SECURITY_NOT_ENABLED"]))
 
 
-    @override_settings(SECURE_STS_SECONDS=3600)
+    @override_settings(SECURE_HSTS_SECONDS=3600)
     def test_with_sts(self):
         self.assertEqual(self.func(), set())
 
@@ -475,8 +481,8 @@ class ConfTest(TestCase):
                     "djangosecure.check.djangosecure.check_frame_deny",
                     "djangosecure.check.djangosecure.check_ssl_redirect",
                     ],
-                "SECURE_STS_SECONDS": 0,
-                "SECURE_FRAME_DENY": True,
+                "SECURE_HSTS_SECONDS": 0,
+                "SECURE_FRAME_DENY": False,
                 "SECURE_SSL_REDIRECT": False,
                 }
             )

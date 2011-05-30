@@ -13,7 +13,7 @@ def check_security_middleware():
 check_security_middleware.messages = {
     "SECURITY_MIDDLEWARE_NOT_INSTALLED": (
         "You do not have 'djangosecure.middleware.SecurityMiddleware' "
-        "in your MIDDLEWARE_CLASSES, so the SECURE_STS_SECONDS, "
+        "in your MIDDLEWARE_CLASSES, so the SECURE_HSTS_SECONDS, "
         "SECURE_FRAME_DENY, and SECURE_SSL_REDIRECT settings "
         "will have no effect.")
     }
@@ -21,13 +21,13 @@ check_security_middleware.messages = {
 
 @boolean_check("STRICT_TRANSPORT_SECURITY_NOT_ENABLED")
 def check_sts():
-    return bool(conf.SECURE_STS_SECONDS)
+    return bool(conf.SECURE_HSTS_SECONDS)
 
 check_sts.messages = {
     "STRICT_TRANSPORT_SECURITY_NOT_ENABLED": (
-        "You have not set a non-zero value for the SECURE_STS_SECONDS setting. "
-        "If your site is served only over SSL, you may want to consider "
-        "setting a value and enabling Strict Transport Security "
+        "You have not set a non-zero value for the SECURE_HSTS_SECONDS setting. "
+        "If your entire site is served only over SSL, you may want to consider "
+        "setting a value and enabling HTTP Strict Transport Security "
         "(see http://en.wikipedia.org/wiki/Strict_Transport_Security)."
         )
     }
@@ -39,12 +39,12 @@ def check_frame_deny():
 
 check_frame_deny.messages = {
     "FRAME_DENY_NOT_ENABLED": (
-        "You have set the SECURE_FRAME_DENY setting to False, "
+        "Your SECURE_FRAME_DENY setting is not set to True, "
         "so your pages will not be served with an "
         "'x-frame-options: DENY' header. "
         "Unless there is a good reason for your site to be served in a frame, "
         "you should consider enabling this header "
-        "to help prevent click-jacking attacks."
+        "to help prevent clickjacking attacks."
         )
     }
 

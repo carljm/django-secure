@@ -5,7 +5,7 @@ from .conf import conf
 
 class SecurityMiddleware(object):
     def __init__(self):
-        self.sts_seconds = conf.SECURE_STS_SECONDS
+        self.sts_seconds = conf.SECURE_HSTS_SECONDS
         self.frame_deny = conf.SECURE_FRAME_DENY
         self.redirect = conf.SECURE_SSL_REDIRECT
 
