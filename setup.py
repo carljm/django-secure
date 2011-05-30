@@ -13,7 +13,7 @@ def get_version():
     try:
         for line in fh.readlines():
             if line.startswith("__version__ ="):
-                return line.split("=")[1].strip()
+                return line.split("=")[1].strip().strip('"')
     finally:
         fh.close()
 

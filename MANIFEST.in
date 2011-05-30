@@ -3,3 +3,5 @@ include CHANGES.rst
 include LICENSE.txt
 include README.rst
 include TODO.rst
+recursive-include doc *.rst *.py *.bat
+include doc/Makefile

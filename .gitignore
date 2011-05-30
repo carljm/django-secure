@@ -2,3 +2,4 @@
 htmlcov/
 *.egg
 django_secure*.egg-info
+doc/_build/

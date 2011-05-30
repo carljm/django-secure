@@ -2,8 +2,14 @@
 django-secure
 =============
 
-Utilities for running a secure Django site (where all URLs in the site should
-be accessed over an HTTPS connection).
+Helping you remember to do the stupid little things to improve your Django
+site's security.
+
+Inspired by Mozilla's `Secure Coding Guidelines`_, and intended for sites that
+are entirely or mostly served over SSL (which should include anything with
+user logins).
+
+.. _Secure Coding Guidelines: https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines
 
 Quickstart
 ==========
@@ -39,11 +45,14 @@ Usage
   ``MIDDLEWARE_CLASSES`` setting (where depends on your other middlewares, but
   near the beginning of the list is probably a good choice).
 
-* Set the ``SECURE_SSL_REDIRECT`` setting to True if all non-SSL requests
+* Set the ``SECURE_SSL_REDIRECT`` setting to ``True`` if all non-SSL requests
   should be permanently redirected to SSL.
 
-* Set the ``SECURE_STS_SECONDS`` setting to an integer number of seconds, if
-  you want to use `Strict Transport Security`_.
+* Set the ``SECURE_HSTS_SECONDS`` setting to an integer number of seconds, if
+  you want to use `HTTP Strict Transport Security`_.
+
+* Set the ``SECURE_FRAME_DENY`` setting to ``True``, if you want to prevent
+  framing of your pages and protect them from `clickjacking`_.
 
 * Set ``SESSION_COOKIE_SECURE`` and ``SESSION_COOKIE_HTTPONLY`` to ``True`` if
   you are using ``django.contrib.sessions``. These settings are not part of
@@ -53,7 +62,17 @@ Usage
 * Run ``python manage.py checksecure`` to verify that your settings are
   properly configured for serving a secure SSL site.
 
-.. _Strict Transport Security: http://en.wikipedia.org/wiki/Strict_Transport_Security
+.. _HTTP Strict Transport Security: http://en.wikipedia.org/wiki/Strict_Transport_Security
+
+.. _clickjacking: http://www.sectheory.com/clickjacking.htm
+
+.. warning::
+    If ``checksecure`` gives you the all-clear, all it means is that you're now
+    taking advantage of a tiny selection of simple and easy security
+    wins. That's great, but it doesn't mean your site or your codebase is
+    secure: only a competent security audit can tell you that.
+
+.. end-here
 
 Documentation
 -------------
