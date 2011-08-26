@@ -35,6 +35,9 @@ class SecurityMiddlewareTest(TestCase):
             request_kwargs.update(self.secure_request_kwargs)
         request = (kwargs.pop("request", None) or
                    self.request.get("/some/url", **request_kwargs))
+        ret = self.middleware.process_request(request)
+        if ret:
+            return ret
         return self.middleware.process_response(
             request, self.response(*args, **kwargs))
 
@@ -148,9 +151,10 @@ class SecurityMiddlewareTest(TestCase):
         requests to the https:// version of the same URL.
 
         """
-        ret = self.process_request("get", "/some/url")
+        ret = self.process_request("get", "/some/url?query=string")
         self.assertEqual(ret.status_code, 301)
-        self.assertEqual(ret["Location"], "https://testserver/some/url")
+        self.assertEqual(
+            ret["Location"], "https://testserver/some/url?query=string")
 
 
     @override_settings(SECURE_SSL_REDIRECT=True)
@@ -218,6 +222,19 @@ class ProxySecurityMiddlewareTest(SecurityMiddlewareTest):
     @property
     def secure_request_kwargs(self):
         return {"HTTP_X_FORWARDED_PROTOCOL": "https"}
+
+
+    def test_is_secure(self):
+        """
+        SecurityMiddleware patches request.is_secure() to report ``True`` even
+        with a proxy-header secure request.
+
+        """
+        request = self.request.get("/some/url", **self.secure_request_kwargs)
+        self.middleware.process_request(request)
+
+        self.assertEqual(request.is_secure(), True)
+
 
 
 

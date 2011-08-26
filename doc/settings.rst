@@ -57,12 +57,23 @@ connection is made to a front-end loadbalancer or reverse-proxy, and the
 internal proxied connection that Django sees is not HTTPS. Usually in these
 cases the proxy server provides an alternative header to indicate the secured
 external connection. This setting, if set, should be a tuple of ("header",
-"value"); if "header" is set to "value" in the request, django-secure will
-consider it a secure request. For example::
+"value"); if "header" is set to "value" in ``request.META``, django-secure will
+tell Django to consider it a secure request (in other words,
+``request.is_secure()`` will return ``True`` for this request). The "header"
+should be specified in the format it would be found in ``request.META``
+(e.g. "HTTP_X_FORWARDED_PROTOCOL", not "X-Forwarded-Protocol"). For example::
 
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
 
 Defaults to ``None``.
+
+.. warning::
+
+   If you set this to a header that your proxy allows through from the request
+   unmodified (i.e. a header that can be spoofed), you are allowing an attacker
+   to pretend that any request is secure, even if it is not. Make sure you only
+   use a header that your proxy sets unconditionally, overriding any value from
+   the request.
 
 .. _SECURE_REDIRECT_EXEMPT:
 
