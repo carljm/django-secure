@@ -535,13 +535,13 @@ class CheckFrameDenyTest(TestCase):
 
 
     @override_settings(SECURE_FRAME_DENY=False)
-    def test_no_sts(self):
+    def test_no_frame_deny(self):
         self.assertEqual(
             self.func(), set(["FRAME_DENY_NOT_ENABLED"]))
 
 
     @override_settings(SECURE_FRAME_DENY=True)
-    def test_with_sts(self):
+    def test_with_frame_deny(self):
         self.assertEqual(self.func(), set())
 
 
