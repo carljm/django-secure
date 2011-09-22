@@ -143,6 +143,26 @@ class SecurityMiddlewareTest(TestCase):
         self.assertFalse(
             "strict-transport-security" in self.process_response(secure=True))
 
+    @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=True)
+    def test_content_type_on(self):
+        """
+        With SECURE_CONTENT_TYPE_NOSNIFF set to True, the middleware adds
+        "x-content-type-options: nosniff" header to the response.
+
+        """
+        self.assertEqual(
+            self.process_response()["x-content-type-options"],
+            "nosniff")
+
+    @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=False)
+    def test_content_type_off(self):
+        """
+        With SECURE_CONTENT_TYPE_NOSNIFF False, the middleware does not add an
+        "x-content-type-options" header to the response.
+
+        """
+        self.assertFalse("x-content-type-options" in self.process_response())
+
 
     @override_settings(SECURE_SSL_REDIRECT=True)
     def test_ssl_redirect_on(self):
@@ -546,6 +566,25 @@ class CheckFrameDenyTest(TestCase):
 
 
 
+class CheckContentTypeNosniffTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_content_type_nosniff
+        return check_content_type_nosniff
+
+
+    @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=False)
+    def test_no_content_type_nosniff(self):
+        self.assertEqual(
+            self.func(), set(["CONTENT_TYPE_NOSNIFF_NOT_ENABLED"]))
+
+
+    @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=True)
+    def test_with_content_type_nosniff(self):
+        self.assertEqual(self.func(), set())
+
+
+
 class CheckSSLRedirectTest(TestCase):
     @property
     def func(self):
@@ -590,10 +629,12 @@ class ConfTest(TestCase):
                     "djangosecure.check.djangosecure.check_security_middleware",
                     "djangosecure.check.djangosecure.check_sts",
                     "djangosecure.check.djangosecure.check_frame_deny",
+                    "djangosecure.check.djangosecure.check_content_type_nosniff",
                     "djangosecure.check.djangosecure.check_ssl_redirect",
                     ],
                 "SECURE_HSTS_SECONDS": 0,
                 "SECURE_FRAME_DENY": False,
+                "SECURE_CONTENT_TYPE_NOSNIFF": False,
                 "SECURE_SSL_REDIRECT": False,
                 "SECURE_SSL_HOST": None,
                 "SECURE_REDIRECT_EXEMPT": [],

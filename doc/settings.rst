@@ -21,6 +21,7 @@ Defaults to::
         "djangosecure.check.djangosecure.check_security_middleware",
         "djangosecure.check.djangosecure.check_sts",
         "djangosecure.check.djangosecure.check_frame_deny",
+        "djangosecure.check.djangosecure.check_content_type_nosniff",
         "djangosecure.check.djangosecure.check_ssl_redirect",
     ]
 
@@ -45,6 +46,17 @@ If set to a non-zero integer value, causes :doc:`middleware` to set the
 already have that header.
 
 Defaults to ``0``.
+
+.. _SECURE_CONTENT_TYPE_NOSNIFF:
+
+SECURE_CONTENT_TYPE_NOSNIFF
+---------------------------
+
+If set to ``True``, causes :doc:`middleware` to set the
+:ref:`x-content-type-options` header on all responses that do not already
+have that header.
+
+Defaults to ``False``.
 
 .. _SECURE_PROXY_SSL_HEADER:
 
