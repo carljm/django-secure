@@ -49,6 +49,21 @@ check_frame_deny.messages = {
     }
 
 
+@boolean_check("CONTENT_TYPE_NOSNIFF_NOT_ENABLED")
+def check_content_type_nosniff():
+    return conf.SECURE_CONTENT_TYPE_NOSNIFF
+
+check_content_type_nosniff.messages = {
+    "CONTENT_TYPE_NOSNIFF_NOT_ENABLED": (
+        "Your SECURE_CONTENT_TYPE_NOSNIFF setting is not set to True, "
+        "so your pages will not be served with an "
+        "'x-content-type-options: nosniff' header. "
+        "You should consider enabling this header to prevent the "
+        "browser from identifying content types incorrectly."
+        )
+    }
+
+
 @boolean_check("SSL_REDIRECT_NOT_ENABLED")
 def check_ssl_redirect():
     return conf.SECURE_SSL_REDIRECT
