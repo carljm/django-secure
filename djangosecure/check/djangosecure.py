@@ -14,8 +14,8 @@ check_security_middleware.messages = {
     "SECURITY_MIDDLEWARE_NOT_INSTALLED": (
         "You do not have 'djangosecure.middleware.SecurityMiddleware' "
         "in your MIDDLEWARE_CLASSES, so the SECURE_HSTS_SECONDS, "
-        "SECURE_FRAME_DENY, and SECURE_SSL_REDIRECT settings "
-        "will have no effect.")
+        "SECURE_FRAME_DENY, SECURE_CONTENT_TYPE_NOSNIFF, and "
+        "SECURE_SSL_REDIRECT settings will have no effect.")
     }
 
 

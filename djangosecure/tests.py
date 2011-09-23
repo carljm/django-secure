@@ -136,12 +136,13 @@ class SecurityMiddlewareTest(TestCase):
     @override_settings(SECURE_HSTS_SECONDS=0)
     def test_sts_off(self):
         """
-        With SECURE_HSTS_SECONDS of 0, the middleware does not add an
+        With SECURE_HSTS_SECONDS of 0, the middleware does not add a
         "strict-transport-security" header to the response.
 
         """
         self.assertFalse(
             "strict-transport-security" in self.process_response(secure=True))
+
 
     @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=True)
     def test_content_type_on(self):
@@ -153,6 +154,20 @@ class SecurityMiddlewareTest(TestCase):
         self.assertEqual(
             self.process_response()["x-content-type-options"],
             "nosniff")
+
+
+    @override_settings(SECURE_CONTENT_TYPE_NO_SNIFF=True)
+    def test_content_type_already_present(self):
+        """
+        The middleware will not override an "x-content-type-options" header
+        already present in the response.
+
+        """
+        response = self.process_response(
+            secure=True,
+            headers={"x-content-type-options": "foo"})
+        self.assertEqual(response["x-content-type-options"], "foo")
+
 
     @override_settings(SECURE_CONTENT_TYPE_NOSNIFF=False)
     def test_content_type_off(self):
