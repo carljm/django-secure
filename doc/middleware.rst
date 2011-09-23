@@ -109,6 +109,7 @@ If you set the :ref:`SECURE_SSL_REDIRECT` setting to True,
 connections to HTTPS.
 
 .. note::
+
     For performance reasons, it's preferable to do these redirects outside of
     Django, in a front-end loadbalancer or reverse-proxy server such as
     `nginx`_. In some deployment situations this isn't an option -
