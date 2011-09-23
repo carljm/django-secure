@@ -39,7 +39,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-secure'
-copyright = u'2011, Carl Meyer'
+copyright = u'2011, Carl Meyer and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,7 +188,7 @@ htmlhelp_basename = 'django-securedoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'django-secure.tex', u'django-secure Documentation',
-   u'Carl Meyer', 'manual'),
+   u'Carl Meyer and contributors', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -221,5 +221,5 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'django-secure', u'django-secure Documentation',
-     [u'Carl Meyer'], 1)
+     [u'Carl Meyer and contributors'], 1)
 ]
