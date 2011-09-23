@@ -75,7 +75,7 @@ check_xss_filter.messages = {
         "so your pages will not be served with an "
         "'x-xss-protection: 1; mode=block' header. "
         "You should consider enabling this header to activate the "
-        "browser's XSS filtering and set it block suspicious content."
+        "browser's XSS filtering and help prevent XSS attacks."
         )
     }
 
