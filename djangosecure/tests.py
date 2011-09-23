@@ -179,6 +179,41 @@ class SecurityMiddlewareTest(TestCase):
         self.assertFalse("x-content-type-options" in self.process_response())
 
 
+    @override_settings(SECURE_XSS_FILTER=True)
+    def test_xss_filter_on(self):
+        """
+        With SECURE_XSS_FILTER set to True, the middleware adds
+        "s-xss-protection: 1; mode=block" header to the response.
+
+        """
+        self.assertEqual(
+            self.process_response()["x-xss-protection"],
+            "1; mode=block")
+
+
+    @override_settings(SECURE_XSS_FILTER=True)
+    def test_xss_filter_already_present(self):
+        """
+        The middleware will not override an "x-xss-protection" header
+        already present in the response.
+
+        """
+        response = self.process_response(
+            secure=True,
+            headers={"x-xss-protection": "foo"})
+        self.assertEqual(response["x-xss-protection"], "foo")
+
+
+    @override_settings(SECURE_XSS_FILTER=False)
+    def test_xss_filter_off(self):
+        """
+        With SECURE_XSS_FILTER set to False, the middleware does not add an
+        "x-xss-protection" header to the response.
+
+        """
+        self.assertFalse("x-xss-protection" in self.process_response())
+
+
     @override_settings(SECURE_SSL_REDIRECT=True)
     def test_ssl_redirect_on(self):
         """
@@ -600,6 +635,25 @@ class CheckContentTypeNosniffTest(TestCase):
 
 
 
+class CheckXssFilterTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_xss_filter
+        return check_xss_filter
+
+
+    @override_settings(SECURE_XSS_FILTER=False)
+    def test_no_xss_filter(self):
+        self.assertEqual(
+            self.func(), set(["XSS_FILTER_NOT_ENABLED"]))
+
+
+    @override_settings(SECURE_XSS_FILTER=True)
+    def test_with_xss_filter(self):
+        self.assertEqual(self.func(), set())
+
+
+
 class CheckSSLRedirectTest(TestCase):
     @property
     def func(self):
@@ -645,11 +699,13 @@ class ConfTest(TestCase):
                     "djangosecure.check.djangosecure.check_sts",
                     "djangosecure.check.djangosecure.check_frame_deny",
                     "djangosecure.check.djangosecure.check_content_type_nosniff",
+                    "djangosecure.check.djangosecure.check_xss_filter",
                     "djangosecure.check.djangosecure.check_ssl_redirect",
                     ],
                 "SECURE_HSTS_SECONDS": 0,
                 "SECURE_FRAME_DENY": False,
                 "SECURE_CONTENT_TYPE_NOSNIFF": False,
+                "SECURE_XSS_FILTER": False,
                 "SECURE_SSL_REDIRECT": False,
                 "SECURE_SSL_HOST": None,
                 "SECURE_REDIRECT_EXEMPT": [],

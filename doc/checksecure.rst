@@ -51,6 +51,10 @@ default:
 
    Warns if :ref:`SECURE_CONTENT_TYPE_NOSNIFF` is not ``True``.
 
+.. py:function:: check_xss_filter
+
+   Warns if :ref:`SECURE_XSS_FILTER` is not ``True``.
+
 .. py:function:: check_ssl_redirect
 
    Warns if :ref:`SECURE_SSL_REDIRECT` is not ``True``.

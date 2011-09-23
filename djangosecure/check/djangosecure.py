@@ -14,8 +14,9 @@ check_security_middleware.messages = {
     "SECURITY_MIDDLEWARE_NOT_INSTALLED": (
         "You do not have 'djangosecure.middleware.SecurityMiddleware' "
         "in your MIDDLEWARE_CLASSES, so the SECURE_HSTS_SECONDS, "
-        "SECURE_FRAME_DENY, SECURE_CONTENT_TYPE_NOSNIFF, and "
-        "SECURE_SSL_REDIRECT settings will have no effect.")
+        "SECURE_FRAME_DENY, SECURE_CONTENT_TYPE_NOSNIFF, "
+        "SECURE_XSS_FILTER and SECURE_SSL_REDIRECT settings "
+        "will have no effect.")
     }
 
 
@@ -60,6 +61,21 @@ check_content_type_nosniff.messages = {
         "'x-content-type-options: nosniff' header. "
         "You should consider enabling this header to prevent the "
         "browser from identifying content types incorrectly."
+        )
+    }
+
+
+@boolean_check("XSS_FILTER_NOT_ENABLED")
+def check_xss_filter():
+    return conf.SECURE_XSS_FILTER
+
+check_xss_filter.messages = {
+    "XSS_FILTER_NOT_ENABLED": (
+        "Your SECURE_XSS_FILTER setting is not set to True, "
+        "so your pages will not be served with an "
+        "'x-xss-protection: 1; mode=block' header. "
+        "You should consider enabling this header to activate the "
+        "browser's XSS filtering and set it block suspicious content."
         )
     }
 

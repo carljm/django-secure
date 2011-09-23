@@ -95,6 +95,33 @@ is ``True``.
 
 .. _IE Security Blog: http://blogs.msdn.com/b/ie/archive/2008/09/02/ie8-security-part-vi-beta-2-update.aspx
 
+.. _x-xss-protection:
+
+X-XSS-Protection: 1; mode=block
+-------------------------------
+
+Some browsers have to ability to sanitize content that appears to be an `XSS
+attack`_. They work by looking for Javascript content in the GET or POST
+parameters of a page. If the Javascript is replayed in the server's
+response the script is blocked from executing.
+
+The `X-XSS-Protection header`_ is used to control the operation of the
+XSS filter.
+
+To enable the XSS filter in the browser, and force it to always block
+suspected XSS attacks, you can pass the ``X-XSS-Protection: 1; mode=block``
+header. ``SecurityMiddleware`` will do this for all responses if the
+:ref:`SECURE_XSS_FILTER` setting is ``True``.
+
+.. warning::
+    The XSS filter does not prevent XSS attacks on your site, and you
+    should ensure that you are taking all other possible mesaures to
+    prevent XSS attacks. The most obvious of these is validating and
+    sanitizing all input.
+
+.. _XSS attack: http://en.wikipedia.org/wiki/Cross-site_scripting
+.. _X-XSS-Protection header: http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-iv-the-xss-filter.aspx
+
 .. _ssl-redirect:
 
 SSL Redirect
