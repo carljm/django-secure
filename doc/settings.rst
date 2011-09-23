@@ -120,4 +120,12 @@ If set to ``True``, causes :doc:`middleware` to :ref:`redirect <ssl-redirect>`
 all non-HTTPS requests to HTTPS (except for those URLs matching a regular
 expression listed in :ref:`SECURE_REDIRECT_EXEMPT`).
 
+.. note::
+
+   If turning this to ``True`` causes infinite redirects, it probably means
+   your site is running behind a proxy and can't tell which requests are secure
+   and which are not. Your proxy likely sets a header to indicate secure
+   requests; you can correct the problem by finding out what that header is and
+   configuring the :ref:`SECURE_PROXY_SSL_HEADER` setting accordingly.
+
 Defaults to ``False``.
