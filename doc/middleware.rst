@@ -70,6 +70,31 @@ you set the :ref:`SECURE_HSTS_SECONDS` setting to a nonzero integer value.
 
 .. _"Strict-Transport-Security" header: http://en.wikipedia.org/wiki/Strict_Transport_Security
 
+.. _x-content-type-options:
+
+X-Content-Type-Options: nosniff
+-------------------------------
+
+Some browsers will try to guess the content types of the assets that they
+fetch, overriding the ``Content-Type`` header. While this can help display
+sites with improperly configured servers, it can also pose as a security
+concern.
+
+If your site serves user uploaded files, a malicious user could upload a
+specially crafted file that would be interpreted as HTML or Javascript by
+the browser when you where expected it to be something harmless.
+
+To learn more about this header and how the browser treats it, you can
+read about it on the `IE Security Blog`_.
+
+To prevent the browser from guessing the content type, and always using
+the type provided in the ``Content-Type`` header, you can pass the
+``X-Content-Type-Options: nosniff`` header. This is what the
+``SecurityMiddleware`` will do for all responses if the
+:ref:`SECURE_CONTENT_TYPE_NOSNIFF` setting is ``True``.
+
+.. _IE Security Blog: http://blogs.msdn.com/b/ie/archive/2008/09/02/ie8-security-part-vi-beta-2-update.aspx
+
 .. _ssl-redirect:
 
 SSL Redirect

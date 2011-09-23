@@ -54,6 +54,9 @@ Usage
 * Set the ``SECURE_FRAME_DENY`` setting to ``True``, if you want to prevent
   framing of your pages and protect them from `clickjacking`_.
 
+* Set the ``SECURE_CONTENT_TYPE_NOSNIFF`` setting to ``True``, if you want to prevent
+  the browser from guessing asset content types.
+
 * Set ``SESSION_COOKIE_SECURE`` and ``SESSION_COOKIE_HTTPONLY`` to ``True`` if
   you are using ``django.contrib.sessions``. These settings are not part of
   ``django-secure``, but they should be used if running a secure site, and the

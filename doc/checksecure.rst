@@ -47,6 +47,10 @@ default:
 
    Warns if :ref:`SECURE_FRAME_DENY` is not ``True``.
 
+.. py:function:: check_content_type_nosniff
+
+   Warns if :ref:`SECURE_CONTENT_TYPE_NOSNIFF` is not ``True``.
+
 .. py:function:: check_ssl_redirect
 
    Warns if :ref:`SECURE_SSL_REDIRECT` is not ``True``.
