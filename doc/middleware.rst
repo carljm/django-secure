@@ -100,10 +100,11 @@ is ``True``.
 X-XSS-Protection: 1; mode=block
 -------------------------------
 
-Some browsers have to ability to sanitize content that appears to be an `XSS
+Some browsers have to ability to block content that appears to be an `XSS
 attack`_. They work by looking for Javascript content in the GET or POST
 parameters of a page. If the Javascript is replayed in the server's
-response the script is blocked from executing.
+response the page is blocked from rendering and a error page is shown
+instead.
 
 The `X-XSS-Protection header`_ is used to control the operation of the
 XSS filter.
