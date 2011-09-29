@@ -59,9 +59,9 @@ have that header.
 
 Defaults to ``False``.
 
-.. _SECURE_XSS_FILTER:
+.. _SECURE_BROWSER_XSS_FILTER:
 
-SECURE_XSS_FILTER
+SECURE_BROWSER_XSS_FILTER
 -----------------
 
 If set to ``True``, causes :doc:`middleware` to set the

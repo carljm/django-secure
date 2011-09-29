@@ -179,10 +179,10 @@ class SecurityMiddlewareTest(TestCase):
         self.assertFalse("x-content-type-options" in self.process_response())
 
 
-    @override_settings(SECURE_XSS_FILTER=True)
+    @override_settings(SECURE_BROWSER_XSS_FILTER=True)
     def test_xss_filter_on(self):
         """
-        With SECURE_XSS_FILTER set to True, the middleware adds
+        With SECURE_BROWSER_XSS_FILTER set to True, the middleware adds
         "s-xss-protection: 1; mode=block" header to the response.
 
         """
@@ -191,7 +191,7 @@ class SecurityMiddlewareTest(TestCase):
             "1; mode=block")
 
 
-    @override_settings(SECURE_XSS_FILTER=True)
+    @override_settings(SECURE_BROWSER_XSS_FILTER=True)
     def test_xss_filter_already_present(self):
         """
         The middleware will not override an "x-xss-protection" header
@@ -204,10 +204,10 @@ class SecurityMiddlewareTest(TestCase):
         self.assertEqual(response["x-xss-protection"], "foo")
 
 
-    @override_settings(SECURE_XSS_FILTER=False)
+    @override_settings(SECURE_BROWSER_XSS_FILTER=False)
     def test_xss_filter_off(self):
         """
-        With SECURE_XSS_FILTER set to False, the middleware does not add an
+        With SECURE_BROWSER_XSS_FILTER set to False, the middleware does not add an
         "x-xss-protection" header to the response.
 
         """
@@ -642,13 +642,13 @@ class CheckXssFilterTest(TestCase):
         return check_xss_filter
 
 
-    @override_settings(SECURE_XSS_FILTER=False)
+    @override_settings(SECURE_BROWSER_XSS_FILTER=False)
     def test_no_xss_filter(self):
         self.assertEqual(
-            self.func(), set(["XSS_FILTER_NOT_ENABLED"]))
+            self.func(), set(["BROWSER_XSS_FILTER_NOT_ENABLED"]))
 
 
-    @override_settings(SECURE_XSS_FILTER=True)
+    @override_settings(SECURE_BROWSER_XSS_FILTER=True)
     def test_with_xss_filter(self):
         self.assertEqual(self.func(), set())
 
@@ -705,7 +705,7 @@ class ConfTest(TestCase):
                 "SECURE_HSTS_SECONDS": 0,
                 "SECURE_FRAME_DENY": False,
                 "SECURE_CONTENT_TYPE_NOSNIFF": False,
-                "SECURE_XSS_FILTER": False,
+                "SECURE_BROWSER_XSS_FILTER": False,
                 "SECURE_SSL_REDIRECT": False,
                 "SECURE_SSL_HOST": None,
                 "SECURE_REDIRECT_EXEMPT": [],

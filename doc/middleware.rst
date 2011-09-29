@@ -112,7 +112,7 @@ XSS filter.
 To enable the XSS filter in the browser, and force it to always block
 suspected XSS attacks, you can pass the ``X-XSS-Protection: 1; mode=block``
 header. ``SecurityMiddleware`` will do this for all responses if the
-:ref:`SECURE_XSS_FILTER` setting is ``True``.
+:ref:`SECURE_BROWSER_XSS_FILTER` setting is ``True``.
 
 .. warning::
     The XSS filter does not prevent XSS attacks on your site, and you

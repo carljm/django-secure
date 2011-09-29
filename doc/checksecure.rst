@@ -53,7 +53,7 @@ default:
 
 .. py:function:: check_xss_filter
 
-   Warns if :ref:`SECURE_XSS_FILTER` is not ``True``.
+   Warns if :ref:`SECURE_BROWSER_XSS_FILTER` is not ``True``.
 
 .. py:function:: check_ssl_redirect
 

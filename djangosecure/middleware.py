@@ -10,7 +10,7 @@ class SecurityMiddleware(object):
         self.sts_seconds = conf.SECURE_HSTS_SECONDS
         self.frame_deny = conf.SECURE_FRAME_DENY
         self.content_type_nosniff = conf.SECURE_CONTENT_TYPE_NOSNIFF
-        self.xss_filter = conf.SECURE_XSS_FILTER
+        self.xss_filter = conf.SECURE_BROWSER_XSS_FILTER
         self.redirect = conf.SECURE_SSL_REDIRECT
         self.redirect_host = conf.SECURE_SSL_HOST
         self.proxy_ssl_header = conf.SECURE_PROXY_SSL_HEADER

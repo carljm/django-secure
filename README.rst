@@ -57,7 +57,7 @@ Usage
 * Set the ``SECURE_CONTENT_TYPE_NOSNIFF`` setting to ``True``, if you want to prevent
   the browser from guessing asset content types.
 
-* Set the ``SECURE_XSS_FILTER`` setting to ``True``, if you want to enable
+* Set the ``SECURE_BROWSER_XSS_FILTER`` setting to ``True``, if you want to enable
   the browser's XSS filtering protections.
 
 * Set ``SESSION_COOKIE_SECURE`` and ``SESSION_COOKIE_HTTPONLY`` to ``True`` if
