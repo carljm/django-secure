@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-tip (unreleased)
-----------------
+0.1.1 (2011.11.23)
+------------------
 
 * Added the ``X-Content-Type-Options: nosniff`` header. Thanks Johannas Heller.
 
