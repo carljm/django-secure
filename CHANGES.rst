@@ -1,10 +1,15 @@
 CHANGES
 =======
 
-0.1.1 (2011.11.23)
-------------------
+
+master (unreleased)
+-------------------
 
 * Added the ``X-XSS-Protection: 1; mode=block`` header. Thanks Johannas Heller.
+
+
+0.1.1 (2011.11.23)
+------------------
 
 * Added the ``X-Content-Type-Options: nosniff`` header. Thanks Johannas Heller.
 
