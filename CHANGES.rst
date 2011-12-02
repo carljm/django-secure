@@ -4,6 +4,8 @@ CHANGES
 0.1.1 (2011.11.23)
 ------------------
 
+* Added the ``X-XSS-Protection: 1; mode=block`` header. Thanks Johannas Heller.
+
 * Added the ``X-Content-Type-Options: nosniff`` header. Thanks Johannas Heller.
 
 * ``SECURE_PROXY_SSL_HEADER`` setting now patches ``request.is_secure()`` so it
