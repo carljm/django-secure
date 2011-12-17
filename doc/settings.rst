@@ -75,6 +75,9 @@ Defaults to ``False``.
 SECURE_PROXY_SSL_HEADER
 -----------------------
 
+(Note: As of Dec. 16, 2011, this setting is available in Django 1.4 proper.
+The official Django setting works identically to this version.)
+
 In some deployment scenarios, Django's ``request.is_secure()`` method returns
 ``False`` even on requests that are actually secure, because the HTTPS
 connection is made to a front-end loadbalancer or reverse-proxy, and the
