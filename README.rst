@@ -48,8 +48,9 @@ Usage
 * Set the ``SECURE_SSL_REDIRECT`` setting to ``True`` if all non-SSL requests
   should be permanently redirected to SSL.
 
-* Set the ``SECURE_HSTS_SECONDS`` setting to an integer number of seconds, if
-  you want to use `HTTP Strict Transport Security`_.
+* Set the ``SECURE_HSTS_SECONDS`` setting to an integer number of seconds and
+  ``SECURE_HSTS_INCLUDE_SUBDOMAINS`` to ``True``, if you want to use `HTTP
+  Strict Transport Security`_.
 
 * Set the ``SECURE_FRAME_DENY`` setting to ``True``, if you want to prevent
   framing of your pages and protect them from `clickjacking`_.
