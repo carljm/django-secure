@@ -19,6 +19,7 @@ class Configuration(object):
 
 conf = Configuration(
     SECURE_HSTS_SECONDS=0,
+    SECURE_HSTS_INCLUDE_SUBDOMAINS=False,
     SECURE_FRAME_DENY=False,
     SECURE_CONTENT_TYPE_NOSNIFF=False,
     SECURE_BROWSER_XSS_FILTER=False,

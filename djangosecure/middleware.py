@@ -8,6 +8,7 @@ from .conf import conf
 class SecurityMiddleware(object):
     def __init__(self):
         self.sts_seconds = conf.SECURE_HSTS_SECONDS
+        self.sts_include_subdomains = conf.SECURE_HSTS_INCLUDE_SUBDOMAINS
         self.frame_deny = conf.SECURE_FRAME_DENY
         self.content_type_nosniff = conf.SECURE_CONTENT_TYPE_NOSNIFF
         self.xss_filter = conf.SECURE_BROWSER_XSS_FILTER
@@ -45,8 +46,12 @@ class SecurityMiddleware(object):
         if (self.sts_seconds and
                 request.is_secure() and
                 not 'strict-transport-security' in response):
-            response["strict-transport-security"] = ("max-age=%s"
-                                                     % self.sts_seconds)
+            sts_header = ("max-age=%s" % self.sts_seconds)
+
+            if self.sts_include_subdomains:
+                sts_header = sts_header + "; includeSubDomains"
+
+            response["strict-transport-security"] = sts_header
 
         if (self.content_type_nosniff and
                 not 'x-content-type-options' in response):
