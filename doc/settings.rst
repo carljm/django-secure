@@ -105,22 +105,16 @@ SECURE_PROXY_SSL_HEADER
 
 .. note::
 
-   As of Dec. 16, 2011, `this setting is available in Django 1.4`_ proper.  The
-   official Django setting works identically to this version.
+   This setting is `built-in to Django 1.4+`_.  The Django setting works
+   identically to this version.
 
-In some deployment scenarios, Django's ``request.is_secure()`` method returns
-``False`` even on requests that are actually secure, because the HTTPS
-connection is made to a front-end loadbalancer or reverse-proxy, and the
-internal proxied connection that Django sees is not HTTPS. Usually in these
-cases the proxy server provides an alternative header to indicate the secured
-external connection. This setting, if set, should be a tuple of ("header",
-"value"); if "header" is set to "value" in ``request.META``, django-secure will
-tell Django to consider it a secure request (in other words,
-``request.is_secure()`` will return ``True`` for this request). The "header"
-should be specified in the format it would be found in ``request.META``
-(e.g. "HTTP_X_FORWARDED_PROTOCOL", not "X-Forwarded-Protocol"). For example::
+A tuple of ("header", "value"); if "header" is set to "value" in
+``request.META``, django-secure will tell Django to consider this a secure
+request. For example::
 
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTOCOL", "https")
+
+See :ref:`proxied-ssl` for more details.
 
 Defaults to ``None``.
 
@@ -132,7 +126,7 @@ Defaults to ``None``.
    use a header that your proxy sets unconditionally, overriding any value from
    the request.
 
-.. _this setting is available in Django 1.4: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
+.. _built-in to Django 1.4+: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
 
 
 .. _SECURE_REDIRECT_EXEMPT:
