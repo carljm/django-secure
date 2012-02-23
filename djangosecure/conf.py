@@ -19,6 +19,7 @@ class Configuration(object):
 
 conf = Configuration(
     SECURE_HSTS_SECONDS=0,
+    SECURE_HSTS_INCLUDE_SUBDOMAINS=False,
     SECURE_FRAME_DENY=False,
     SECURE_CONTENT_TYPE_NOSNIFF=False,
     SECURE_BROWSER_XSS_FILTER=False,
@@ -32,6 +33,7 @@ conf = Configuration(
         "djangosecure.check.sessions.check_session_cookie_httponly",
         "djangosecure.check.djangosecure.check_security_middleware",
         "djangosecure.check.djangosecure.check_sts",
+        "djangosecure.check.djangosecure.check_sts_include_subdomains",
         "djangosecure.check.djangosecure.check_frame_deny",
         "djangosecure.check.djangosecure.check_content_type_nosniff",
         "djangosecure.check.djangosecure.check_xss_filter",
