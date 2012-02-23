@@ -1,7 +1,7 @@
 SecurityMiddleware
 ==================
 
-The ``djangosecure.middleware.SecurityMiddleware`` performs three different
+The ``djangosecure.middleware.SecurityMiddleware`` performs five different
 tasks for you. Each one can be independently enabled or disabled with a
 setting.
 
@@ -50,6 +50,11 @@ header`_. This reduces your exposure to some SSL-stripping man-in-the-middle
 
 ``SecurityMiddleware`` will set this header for you on all HTTPS responses if
 you set the :ref:`SECURE_HSTS_SECONDS` setting to a nonzero integer value.
+
+Additionally, if you set the :ref:`SECURE_HSTS_INCLUDE_SUBDOMAINS` setting to
+``True``, ``SecurityMiddleware`` will add the ``includeSubDomains`` tag to the
+``Strict-Transport-Security`` header. This is recommended, otherwise your site
+may still be vulnerable via an insecure connection to a subdomain.
 
 .. warning::
     The HSTS policy applies to your entire domain, not just the URL of the

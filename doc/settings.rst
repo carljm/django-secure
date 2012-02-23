@@ -3,6 +3,7 @@ Settings Reference
 
 .. contents:: :local:
 
+
 .. _SECURE_CHECKS:
 
 SECURE_CHECKS
@@ -26,6 +27,7 @@ Defaults to::
         "djangosecure.check.djangosecure.check_ssl_redirect",
     ]
 
+
 .. _SECURE_FRAME_DENY:
 
 SECURE_FRAME_DENY
@@ -36,6 +38,7 @@ header on all responses that do not already have that header (and where the
 view was not decorated with the ``frame_deny_exempt`` decorator).
 
 Defaults to ``False``.
+
 
 .. _SECURE_HSTS_SECONDS:
 
@@ -48,6 +51,21 @@ already have that header.
 
 Defaults to ``0``.
 
+
+.. _SECURE_HSTS_INCLUDE_SUBDOMAINS:
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS
+------------------------------
+
+If ``True``, causes :doc:`middleware` to add the ``includeSubDomains`` tag to
+the :ref:`http-strict-transport-security` header.
+
+Has no effect unless :ref:`SECURE_HSTS_SECONDS` is set to a non-zero value.
+
+Defaults to ``False`` (only for backwards compatibility; in most cases if HSTS
+is used it should be set to ``True``).
+
+
 .. _SECURE_CONTENT_TYPE_NOSNIFF:
 
 SECURE_CONTENT_TYPE_NOSNIFF
@@ -59,16 +77,18 @@ have that header.
 
 Defaults to ``False``.
 
+
 .. _SECURE_BROWSER_XSS_FILTER:
 
 SECURE_BROWSER_XSS_FILTER
------------------
+-------------------------
 
 If set to ``True``, causes :doc:`middleware` to set the
 :ref:`x-xss-protection` header on all responses that do not already
 have that header.
 
 Defaults to ``False``.
+
 
 .. _SECURE_PROXY_SSL_HEADER:
 
@@ -102,6 +122,7 @@ Defaults to ``None``.
    use a header that your proxy sets unconditionally, overriding any value from
    the request.
 
+
 .. _SECURE_REDIRECT_EXEMPT:
 
 SECURE_REDIRECT_EXEMPT
@@ -114,6 +135,7 @@ effect).
 
 Defaults to ``[]``.
 
+
 .. _SECURE_SSL_HOST:
 
 SECURE_SSL_HOST
@@ -125,6 +147,7 @@ directed to this host rather than the originally-requested host
 setting has no effect.
 
 Defaults to ``None``.
+
 
 .. _SECURE_SSL_REDIRECT:
 

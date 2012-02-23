@@ -74,9 +74,9 @@ Usage
 
 .. warning::
     If ``checksecure`` gives you the all-clear, all it means is that you're now
-    taking advantage of a tiny selection of simple and easy security
-    wins. That's great, but it doesn't mean your site or your codebase is
-    secure: only a competent security audit can tell you that.
+    taking advantage of a small selection of easy security wins. That's great,
+    but it doesn't mean your site or your codebase is secure: only a competent
+    security audit can tell you that.
 
 .. end-here
 
