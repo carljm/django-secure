@@ -33,11 +33,19 @@ Defaults to::
 SECURE_FRAME_DENY
 -----------------
 
+.. note::
+
+   Django 1.4+ provides the same functionality via `the X_FRAME_OPTIONS setting
+   and XFrameOptionsMiddleware`_. You can use either this setting or Django's,
+   there's no value in using both.
+
 If set to ``True``, causes :doc:`middleware` to set the :ref:`x-frame-options`
 header on all responses that do not already have that header (and where the
 view was not decorated with the ``frame_deny_exempt`` decorator).
 
 Defaults to ``False``.
+
+.. _the X_FRAME_OPTIONS setting and XFrameOptionsMiddleware: https://docs.djangoproject.com/en/dev/ref/clickjacking/
 
 
 .. _SECURE_HSTS_SECONDS:
@@ -95,8 +103,10 @@ Defaults to ``False``.
 SECURE_PROXY_SSL_HEADER
 -----------------------
 
-(Note: As of Dec. 16, 2011, this setting is available in Django 1.4 proper.
-The official Django setting works identically to this version.)
+.. note::
+
+   As of Dec. 16, 2011, `this setting is available in Django 1.4`_ proper.  The
+   official Django setting works identically to this version.
 
 In some deployment scenarios, Django's ``request.is_secure()`` method returns
 ``False`` even on requests that are actually secure, because the HTTPS
@@ -121,6 +131,8 @@ Defaults to ``None``.
    to pretend that any request is secure, even if it is not. Make sure you only
    use a header that your proxy sets unconditionally, overriding any value from
    the request.
+
+.. _this setting is available in Django 1.4: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
 
 
 .. _SECURE_REDIRECT_EXEMPT:

@@ -12,6 +12,12 @@ setting.
 X-Frame-Options: DENY
 ---------------------
 
+.. note::
+
+   Django 1.4+ provides `its own middleware and setting`_ to set the
+   ``X-Frame-Options`` header; you can use either this or Django's, there's no
+   value in using both.
+
 `Clickjacking`_ attacks use layered frames to mislead users into clicking on a
 different link from the one they think they are clicking on. Fortunately, newer
 browsers support an ``X-Frame-Options`` header that allows you to limit or
@@ -36,6 +42,7 @@ at all, decorate the view with the ``frame_deny_exempt`` decorator::
         # ...
 
 .. _Clickjacking: http://www.sectheory.com/clickjacking.htm
+.. _its own middleware and setting: https://docs.djangoproject.com/en/dev/ref/clickjacking/
 
 .. _http-strict-transport-security:
 
