@@ -26,7 +26,7 @@ def check_sts():
 
 check_sts.messages = {
     "STRICT_TRANSPORT_SECURITY_NOT_ENABLED": (
-        "You have not set a non-zero value for the SECURE_HSTS_SECONDS setting. "
+        "You have not set a value for the SECURE_HSTS_SECONDS setting. "
         "If your entire site is served only over SSL, you may want to consider "
         "setting a value and enabling HTTP Strict Transport Security "
         "(see http://en.wikipedia.org/wiki/Strict_Transport_Security)."
@@ -34,14 +34,15 @@ check_sts.messages = {
     }
 
 
-@boolean_check("STRICT_TRANSPORT_SECURITY_INCLUDE_SUBDOMAINS")
+@boolean_check("STRICT_TRANSPORT_SECURITY_NO_SUBDOMAINS")
 def check_sts_include_subdomains():
     return bool(conf.SECURE_HSTS_INCLUDE_SUBDOMAINS)
 
 check_sts_include_subdomains.messages = {
-    "STRICT_TRANSPORT_SECURITY_INCLUDE_SUBDOMAINS": (
-        "You have not set SECURE_HSTS_INCLUDE_SUBDOMAINS to True. Leaving your "
-        "site open to being attacked using a non SSL subdomain."
+    "STRICT_TRANSPORT_SECURITY_NO_SUBDOMAINS": (
+        "You have not set the SECURE_HSTS_INCLUDE_SUBDOMAINS setting to True. "
+        "Without this, your site is potentially vulnerable to attack "
+        "via an insecure connection to a subdomain."
         )
     }
 
