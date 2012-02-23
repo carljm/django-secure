@@ -34,6 +34,18 @@ check_sts.messages = {
     }
 
 
+@boolean_check("STRICT_TRANSPORT_SECURITY_INCLUDE_SUBDOMAINS")
+def check_sts_include_subdomains():
+    return bool(conf.SECURE_HSTS_INCLUDE_SUBDOMAINS)
+
+check_sts_include_subdomains.messages = {
+    "STRICT_TRANSPORT_SECURITY_INCLUDE_SUBDOMAINS": (
+        "You have not set SECURE_HSTS_INCLUDE_SUBDOMAINS to True. Leaving your "
+        "site open to being attacked using a non SSL subdomain."
+        )
+    }
+
+
 @boolean_check("FRAME_DENY_NOT_ENABLED")
 def check_frame_deny():
     return conf.SECURE_FRAME_DENY
