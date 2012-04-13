@@ -2,8 +2,8 @@ CHANGES
 =======
 
 
-master (unreleased)
--------------------
+0.1.2 (2012.04.13)
+------------------
 
 * Added the ``SECURE_HSTS_INCLUDE_SUBDOMAINS`` setting. Thanks Paul McMillan
   for the report and Donald Stufft for the patch. Fixes #13.
