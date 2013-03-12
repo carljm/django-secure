@@ -720,6 +720,28 @@ class CheckSSLRedirectTest(TestCase):
         self.assertEqual(self.func(), set())
 
 
+class CheckSecretKeyTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_secret_key
+        return check_secret_key
+
+
+    @override_settings(SECRET_KEY='')
+    def test_empty_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+    
+    
+    @override_settings(SECRET_KEY=None)
+    def test_none_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+
+    
+    @override_settings(SECRET_KEY='bla bla')
+    def test_low_entropy_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+    
+
 
 class ConfTest(TestCase):
     def test_no_fallback(self):
