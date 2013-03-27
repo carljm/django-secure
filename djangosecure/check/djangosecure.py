@@ -111,7 +111,7 @@ check_ssl_redirect.messages = {
 @boolean_check("BAD_SECRET_KEY")
 def check_secret_key():
     return len(set(conf.SECRET_KEY)) >= 5 if \
-                                   getattr(conf, 'SECRET_KEY', None) else False
+                               getattr(settings, 'SECRET_KEY', None) else False
 
 check_ssl_redirect.messages = {
     "BAD_SECRET_KEY": (
