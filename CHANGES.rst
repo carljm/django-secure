@@ -4,6 +4,8 @@ CHANGES
 master (unreleased)
 -------------------
 
+* Added check for ``SECRET_KEY``. Thanks Ram Rachum.
+
 0.1.2 (2012.04.13)
 ------------------
 

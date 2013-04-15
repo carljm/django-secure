@@ -65,7 +65,9 @@ default:
 
 .. py:function:: check_secret_key
 
-   Warns if :ref:`SECRET_KEY` is empty, missing, or has a very low number of different characters.
+   Warns if `SECRET_KEY`_ is empty, missing, or has a very low number of different characters.
+
+.. _SECRET_KEY: http://docs.djangoproject.com/en/stable/ref/settings/#secret-key
 
 .. py:currentmodule:: djangosecure.check.sessions
 

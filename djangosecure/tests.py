@@ -736,23 +736,23 @@ class CheckSecretKeyTest(TestCase):
     @override_settings(SECRET_KEY='')
     def test_empty_secret_key(self):
         self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
-    
-    
+
+
     @override_settings(SECRET_KEY=None)
     def test_missing_secret_key(self):
         del settings.SECRET_KEY
         self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
-    
-    
+
+
     @override_settings(SECRET_KEY=None)
     def test_none_secret_key(self):
         self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
 
-    
+
     @override_settings(SECRET_KEY='bla bla')
     def test_low_entropy_secret_key(self):
         self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
-    
+
 
 
 class ConfTest(TestCase):
