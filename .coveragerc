@@ -1,0 +1,4 @@
+[run]
+branch = True
+include = djangosecure/*
+omit = djangosecure/test*.py
