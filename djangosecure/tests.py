@@ -4,6 +4,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.management import call_command
 from django.http import HttpResponse
 from django.test import TestCase
+from django.conf import settings
 
 from .test_utils import override_settings, RequestFactory
 
@@ -720,6 +721,39 @@ class CheckSSLRedirectTest(TestCase):
         self.assertEqual(self.func(), set())
 
 
+class CheckSecretKeyTest(TestCase):
+    @property
+    def func(self):
+        from djangosecure.check.djangosecure import check_secret_key
+        return check_secret_key
+
+
+    @override_settings(SECRET_KEY='awcetupav$#!^h9wTUAPCJWE&!T#``Ho;ta9w4tva')
+    def test_okay_secret_key(self):
+        self.assertEqual(self.func(), set())
+
+
+    @override_settings(SECRET_KEY='')
+    def test_empty_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+    
+    
+    @override_settings(SECRET_KEY=None)
+    def test_missing_secret_key(self):
+        del settings.SECRET_KEY
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+    
+    
+    @override_settings(SECRET_KEY=None)
+    def test_none_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+
+    
+    @override_settings(SECRET_KEY='bla bla')
+    def test_low_entropy_secret_key(self):
+        self.assertEqual(self.func(), set(['BAD_SECRET_KEY']))
+    
+
 
 class ConfTest(TestCase):
     def test_no_fallback(self):
@@ -750,6 +784,7 @@ class ConfTest(TestCase):
                     "djangosecure.check.djangosecure.check_content_type_nosniff",
                     "djangosecure.check.djangosecure.check_xss_filter",
                     "djangosecure.check.djangosecure.check_ssl_redirect",
+                    "djangosecure.check.djangosecure.check_secret_key",
                     ],
                 "SECURE_HSTS_SECONDS": 0,
                 "SECURE_HSTS_INCLUDE_SUBDOMAINS": False,

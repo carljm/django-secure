@@ -106,3 +106,20 @@ check_ssl_redirect.messages = {
         "to redirect all connections to HTTPS."
         )
     }
+
+
+@boolean_check("BAD_SECRET_KEY")
+def check_secret_key():
+    if getattr(settings, 'SECRET_KEY', None):
+        return len(set(conf.SECRET_KEY)) >= 5
+    else:
+        return False
+
+check_ssl_redirect.messages = {
+    "BAD_SECRET_KEY": (
+        "Your SECRET_KEY is either an empty string, non-existent, or has not "
+        "enough characters. Please generate a long and random SECRET_KEY, "
+        "otherwise many of Django's security-critical features will be "
+        "vulnerable to attack."
+        )
+    }

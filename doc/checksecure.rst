@@ -63,6 +63,10 @@ default:
 
    Warns if :ref:`SECURE_SSL_REDIRECT` is not ``True``.
 
+.. py:function:: check_secret_key
+
+   Warns if :ref:`SECRET_KEY` is empty, missing, or has a very low number of different characters.
+
 .. py:currentmodule:: djangosecure.check.sessions
 
 .. py:function:: check_session_cookie_secure

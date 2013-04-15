@@ -4,3 +4,4 @@ htmlcov/
 django_secure*.egg-info
 doc/_build/
 dist/
+*.py[oc]

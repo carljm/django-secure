@@ -65,6 +65,8 @@ Usage
   you are using ``django.contrib.sessions``. These settings are not part of
   ``django-secure``, but they should be used if running a secure site, and the
   ``checksecure`` management command will check their values.
+  
+* Ensure that you're using a long, random and unique ``SECRET_KEY``.
 
 * Run ``python manage.py checksecure`` to verify that your settings are
   properly configured for serving a secure SSL site.
