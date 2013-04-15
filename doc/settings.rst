@@ -45,7 +45,7 @@ view was not decorated with the ``frame_deny_exempt`` decorator).
 
 Defaults to ``False``.
 
-.. _the X_FRAME_OPTIONS setting and XFrameOptionsMiddleware: https://docs.djangoproject.com/en/dev/ref/clickjacking/
+.. _the X_FRAME_OPTIONS setting and XFrameOptionsMiddleware: https://docs.djangoproject.com/en/stable/ref/clickjacking/
 
 
 .. _SECURE_HSTS_SECONDS:
@@ -126,7 +126,7 @@ Defaults to ``None``.
    use a header that your proxy sets unconditionally, overriding any value from
    the request.
 
-.. _built-in to Django 1.4+: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
+.. _built-in to Django 1.4+: https://docs.djangoproject.com/en/stable/ref/settings/#secure-proxy-ssl-header
 
 
 .. _SECURE_REDIRECT_EXEMPT:

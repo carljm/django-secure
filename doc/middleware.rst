@@ -43,7 +43,7 @@ at all, decorate the view with the ``frame_deny_exempt`` decorator::
         # ...
 
 .. _Clickjacking: http://www.sectheory.com/clickjacking.htm
-.. _its own middleware and setting: https://docs.djangoproject.com/en/dev/ref/clickjacking/
+.. _its own middleware and setting: https://docs.djangoproject.com/en/stable/ref/clickjacking/
 
 
 .. _http-strict-transport-security:
@@ -210,4 +210,4 @@ request). The "header" should be specified in the format it would be found in
    use a header that your proxy sets unconditionally, overriding any value from
    the request.
 
-.. _Django 1.4+ offers the same functionality: https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
+.. _Django 1.4+ offers the same functionality: https://docs.djangoproject.com/en/stable/ref/settings/#secure-proxy-ssl-header

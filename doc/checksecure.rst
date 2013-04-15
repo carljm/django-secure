@@ -77,8 +77,8 @@ default:
    thing).
 
 .. _Firesheep: http://codebutler.com/firesheep
-.. _session framework: https://docs.djangoproject.com/en/dev/topics/http/sessions/
-.. _SESSION_COOKIE_SECURE: https://docs.djangoproject.com/en/dev/topics/http/sessions/#session-cookie-secure
+.. _session framework: https://docs.djangoproject.com/en/stable/topics/http/sessions/
+.. _SESSION_COOKIE_SECURE: https://docs.djangoproject.com/en/stable/topics/http/sessions/#session-cookie-secure
 
 .. py:function:: check_session_cookie_httponly
 
@@ -92,7 +92,7 @@ default:
    cookies from Javascript, you're probably doing it wrong.
 
 
-.. _SESSION_COOKIE_HTTPONLY: https://docs.djangoproject.com/en/dev/topics/http/sessions/#session-cookie-httponly
+.. _SESSION_COOKIE_HTTPONLY: https://docs.djangoproject.com/en/stable/topics/http/sessions/#session-cookie-httponly
 
 .. py:currentmodule:: djangosecure.check.csrf
 
@@ -103,9 +103,9 @@ default:
    view that modifies server state; if you choose to do that piecemeal via the
    `csrf_protect`_ view decorator instead, just disable this check.
 
-.. _CSRF protection: https://docs.djangoproject.com/en/dev/ref/contrib/csrf/
-.. _CSRF view middleware: https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#how-to-use-it
-.. _csrf_protect: https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#django.views.decorators.csrf.csrf_protect
+.. _CSRF protection: https://docs.djangoproject.com/en/stable/ref/contrib/csrf/
+.. _CSRF view middleware: https://docs.djangoproject.com/en/stable/ref/contrib/csrf/#how-to-use-it
+.. _csrf_protect: https://docs.djangoproject.com/en/stable/ref/contrib/csrf/#django.views.decorators.csrf.csrf_protect
 
 Suggestions for additional built-in checks (or better, patches implementing
 them) are welcome!
