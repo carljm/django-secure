@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-master (unreleased)
--------------------
+0.1.3 (2013.04.17)
+------------------
 
 * Added check for ``SECRET_KEY``. Thanks Ram Rachum.
 
