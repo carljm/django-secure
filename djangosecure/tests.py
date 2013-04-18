@@ -1,12 +1,10 @@
-import cStringIO as StringIO
-
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management import call_command
 from django.http import HttpResponse
-from django.test import TestCase
-from django.conf import settings
-
-from .test_utils import override_settings, RequestFactory
+from django.test import TestCase, RequestFactory
+from django.test.utils import override_settings
+from django.utils.six import StringIO
 
 
 
