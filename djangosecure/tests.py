@@ -23,7 +23,7 @@ class SecurityMiddlewareTest(TestCase):
     def response(self, *args, **kwargs):
         headers = kwargs.pop("headers", {})
         response = HttpResponse(*args, **kwargs)
-        for k, v in headers.iteritems():
+        for k, v in headers.items():
             response[k] = v
         return response
 
@@ -386,8 +386,8 @@ class RunChecksTest(TestCase):
 
 class CheckSettingsCommandTest(TestCase):
     def call(self, **options):
-        stdout = options.setdefault("stdout", StringIO.StringIO())
-        stderr = options.setdefault("stderr", StringIO.StringIO())
+        stdout = options.setdefault("stdout", StringIO())
+        stderr = options.setdefault("stderr", StringIO())
 
         call_command("checksecure", **options)
 
