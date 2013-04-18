@@ -4,8 +4,11 @@ CHANGES
 tip (unreleased)
 ----------------
 
-* Formally added support and testing for Python 3 (though all non-test code
-  worked fine under Python 3 previously.)
+* BACKWARDS INCOMPATIBLE: Dropped tested support for Python 2.5, Django 1.2,
+  and Django 1.3.
+
+* Added support and testing for Python 3 (though all non-test code worked fine
+  under Python 3 previously.)
 
 
 0.1.3 (2013.04.17)
