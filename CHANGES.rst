@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-tip (unreleased)
+1.0 (2013.04.17)
 ----------------
 
 * BACKWARDS INCOMPATIBLE: Dropped tested support for Python 2.5, Django 1.2,
