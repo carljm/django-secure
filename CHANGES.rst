@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+tip (unreleased)
+----------------
+
+* Formally added support and testing for Python 3 (though all non-test code
+  worked fine under Python 3 previously.)
+
+
 0.1.3 (2013.04.17)
 ------------------
 
