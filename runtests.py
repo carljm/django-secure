@@ -1,33 +1,39 @@
 #!/usr/bin/env python
 
-import os, sys
+import sys
 
 from django.conf import settings
+import django
 
 
-if not settings.configured:
-    settings.configure(
-        INSTALLED_APPS=["djangosecure"],
-        DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3"}})
+DEFAULT_SETTINGS = dict(
+    INSTALLED_APPS=['djangosecure', 'djangosecure.tests'],
+    DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3"}},
+    SILENCED_SYSTEM_CHECKS=["1_7.W001"],
+)
 
 
-def runtests(*test_args):
-    if not test_args:
-        test_args = ["djangosecure"]
+def runtests():
+    if not settings.configured:
+        settings.configure(**DEFAULT_SETTINGS)
 
-    parent = os.path.dirname(os.path.abspath(__file__))
-    sys.path.insert(0, parent)
+    # Compatibility with Django 1.7's stricter initialization
+    if hasattr(django, 'setup'):
+        django.setup()
+
+    print(sys.path)
 
     try:
-        from django.test.simple import DjangoTestSuiteRunner
-        def run_tests(test_args, verbosity, interactive):
-            runner = DjangoTestSuiteRunner(
-                verbosity=verbosity, interactive=interactive, failfast=False)
-            return runner.run_tests(test_args)
+        from django.test.runner import DiscoverRunner
+        runner_class = DiscoverRunner
+        test_args = ['djangosecure.tests']
     except ImportError:
-        # for Django versions that don't have DjangoTestSuiteRunner
-        from django.test.simple import run_tests
-    failures = run_tests(test_args, verbosity=1, interactive=True)
+        from django.test.simple import DjangoTestSuiteRunner
+        runner_class = DjangoTestSuiteRunner
+        test_args = ['tests']
+
+    failures = runner_class(
+        verbosity=1, interactive=True, failfast=False).run_tests(test_args)
     sys.exit(failures)
 
 

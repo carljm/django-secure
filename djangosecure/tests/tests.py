@@ -377,8 +377,8 @@ class RunChecksTest(TestCase):
 
     @override_settings(
         SECURE_CHECKS=[
-            "djangosecure.tests.fake_test",
-            "djangosecure.tests.nomsg_test"])
+            "djangosecure.tests.tests.fake_test",
+            "djangosecure.tests.tests.nomsg_test"])
     def test_returns_warnings(self):
         self.assertEqual(self.func(), set(["SOME_WARNING", "OTHER WARNING"]))
 
@@ -397,37 +397,37 @@ class CheckSettingsCommandTest(TestCase):
         return stdout.read(), stderr.read()
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.fake_test"])
     def test_prints_messages(self):
         stdout, stderr = self.call()
         self.assertTrue("This is the warning message." in stderr)
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.nomsg_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.nomsg_test"])
     def test_prints_code_if_no_message(self):
         stdout, stderr = self.call()
         self.assertTrue("OTHER WARNING" in stderr)
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.fake_test"])
     def test_prints_code_if_verbosity_0(self):
         stdout, stderr = self.call(verbosity=0)
         self.assertTrue("SOME_WARNING" in stderr)
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.fake_test"])
     def test_prints_check_names(self):
         stdout, stderr = self.call()
-        self.assertTrue("djangosecure.tests.fake_test" in stdout)
+        self.assertTrue("djangosecure.tests.tests.fake_test" in stdout)
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.fake_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.fake_test"])
     def test_no_verbosity(self):
         stdout, stderr = self.call(verbosity=0)
         self.assertEqual(stdout, "")
 
 
-    @override_settings(SECURE_CHECKS=["djangosecure.tests.passing_test"])
+    @override_settings(SECURE_CHECKS=["djangosecure.tests.tests.passing_test"])
     def test_all_clear(self):
         stdout, stderr = self.call()
         self.assertTrue("All clear!" in stdout)
