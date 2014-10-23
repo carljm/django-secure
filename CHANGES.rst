@@ -4,6 +4,10 @@ CHANGES
 tip (unreleased)
 ----------------
 
+* Hide django-secure tests from pre-1.6 Django test runners, to avoid breaking
+  project tests.
+
+
 1.0 (2013.04.17)
 ----------------
 
