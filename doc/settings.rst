@@ -21,10 +21,12 @@ Defaults to::
         "djangosecure.check.sessions.check_session_cookie_httponly",
         "djangosecure.check.djangosecure.check_security_middleware",
         "djangosecure.check.djangosecure.check_sts",
+        "djangosecure.check.djangosecure.check_sts_include_subdomains",
         "djangosecure.check.djangosecure.check_frame_deny",
         "djangosecure.check.djangosecure.check_content_type_nosniff",
         "djangosecure.check.djangosecure.check_xss_filter",
         "djangosecure.check.djangosecure.check_ssl_redirect",
+        "djangosecure.check.djangosecure.check_secret_key",
     ]
 
 
