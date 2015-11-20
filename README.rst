@@ -2,6 +2,13 @@
 django-secure
 =============
 
+.. warning::
+
+   This project was `merged into Django 1.8`_. It does not provide any
+   additional checks beyond those included in Django 1.8+, so there is no
+   reason to use it with Django 1.8+. Since Django 1.8 is now the lowest
+   supported Django version, this project is now unsupported and un-maintained.
+
 Helping you remember to do the stupid little things to improve your Django
 site's security.
 
@@ -10,6 +17,8 @@ are entirely or mostly served over SSL (which should include anything with
 user logins).
 
 .. _Secure Coding Guidelines: https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines
+.. _merged into Django 1.8: https://docs.djangoproject.com/en/1.8/releases/1.8/#security-enhancements
+
 
 Quickstart
 ==========
