@@ -1,8 +1,11 @@
 CHANGES
 =======
 
-master (unreleased)
+1.0.2 (2020.03.31)
 -------------------
+
+* This project was merged into Django 1.8 and its features are now part of core
+  Django. Thus it is unmaintained and you should not use it.
 
 1.0.1 (2014.10.23)
 ------------------
